@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <ul id="historial"></ul>
+    <input type="text" id="mensaje_input" autocomplete="off" />
+    <button onclick="enviarMensaje()">Enviar</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('mensaje', function(data) {
+            var historial = document.getElementById('historial');
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(data.contenido));
+            historial.appendChild(li);
+        });
+
+        function enviarMensaje() {
+            var mensajeInput = document.getElementById('mensaje_input');
+            var contenido = mensajeInput.value;
+            socket.emit('mensaje', {'contenido': contenido});
+            mensajeInput.value = '';
+        }
+    </script>
+</body>
+</html>

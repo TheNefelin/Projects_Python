@@ -1,0 +1,19 @@
+# Ignorar modelos específicos
+Lucky_IA/modelo_tree.pkl
+Lucky_IA/modelo_neuron.h5
+
+# Ignorar entornos virtuales
+**/venv/
+
+# Ignorar archivos compilados de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorar archivos de configuración de editor
+.vscode/
+.idea/
+
+# Otros archivos de configuración de entorno
+*.env
+*.log
