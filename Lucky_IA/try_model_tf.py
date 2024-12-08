@@ -13,7 +13,7 @@ from tensorflow.keras import layers, models
 df = pd.read_excel("data_hist.xlsx")
 
 # Convertir las fechas a número de días desde una fecha de referencia
-fecha_referencia = datetime(2020, 1, 1)  # Fecha de referencia
+fecha_referencia = datetime(2024, 12, 8)  # Fecha de referencia
 df['Fecha'] = pd.to_datetime(df['Fecha'])
 df['Dias'] = (df['Fecha'] - fecha_referencia).dt.days
 
@@ -50,7 +50,9 @@ model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2)
 
 # Evaluar el modelo en los datos de prueba
 test_loss = model.evaluate(X_test, y_test)
+print('---------------------->')
 print(f'Pérdida en datos de prueba: {test_loss}')
+print('---------------------->')
 
 # --- Paso 3: Realizar predicciones ---
 

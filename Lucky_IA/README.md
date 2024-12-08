@@ -38,3 +38,7 @@ pip install seaborn
 pip install scikit-learn
 ```
 
+## Run App
+```
+python try_model_tf.py
+```
