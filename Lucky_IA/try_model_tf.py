@@ -13,7 +13,7 @@ from tensorflow.keras import layers, models
 df = pd.read_excel("data_hist.xlsx")
 
 # Convertir las fechas a número de días desde una fecha de referencia
-fecha_referencia = datetime(2024, 12, 8)  # Fecha de referencia
+fecha_referencia = datetime(2025, 2, 26)  # Fecha de referencia
 df['Fecha'] = pd.to_datetime(df['Fecha'])
 df['Dias'] = (df['Fecha'] - fecha_referencia).dt.days
 

@@ -1,6 +1,7 @@
 # Python Lucky IA
 
-* (Python 3.10)[]
+* (Python 3.10)[https://www.python.org/]
+* (Number Results)[https://www.polla.cl/es/view/resultados?]
 
 ### Virtual Environment
 ```
