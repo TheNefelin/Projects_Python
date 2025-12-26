@@ -8,6 +8,7 @@
 pip install virtualenv
 virtualenv -p python3 venv
 .\venv\Scripts\activate
+deactivate
 
 // list of all dependencies
 pip list
@@ -41,5 +42,6 @@ pip install scikit-learn
 
 ## Run App
 ```
+.\venv\Scripts\activate
 python try_model_tf.py
 ```

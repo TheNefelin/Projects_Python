@@ -13,7 +13,7 @@ from tensorflow.keras import layers, models
 df = pd.read_excel("data_hist.xlsx")
 
 # Convertir las fechas a número de días desde una fecha de referencia
-fecha_referencia = datetime(2025, 2, 26)  # Fecha de referencia
+fecha_referencia = datetime(2025, 12, 28)  # Fecha de referencia
 df['Fecha'] = pd.to_datetime(df['Fecha'])
 df['Dias'] = (df['Fecha'] - fecha_referencia).dt.days
 
@@ -68,3 +68,72 @@ numeros_predichos = scaler.inverse_transform(prediccion_normalizada)
 
 # Mostrar los números predichos
 print(f'Predicción de los 6 números: {np.round(numeros_predichos)}')
+
+# ============================================
+# TABLA DE EVALUACIÓN - AGREGADA AL FINAL
+# ============================================
+
+print('\n' + '='*60)
+print('📊 TABLA DE EVALUACIÓN - ¿QUÉ SIGNIFICA TU PÉRDIDA?')
+print('='*60)
+
+# Mostrar la tabla
+print("\n┌─────────────────┬──────────────────┬─────────────────────┐")
+print("│   Rango Loss    │     Calidad      │  Error Promedio (1-41) │")
+print("├─────────────────┼──────────────────┼─────────────────────┤")
+
+rangos = [
+    (0.00, 0.10, "✅ EXCELENTE", "2-4 números"),
+    (0.10, 0.30, "👍 BUENO", "4-12 números"),
+    (0.30, 0.70, "⚠️ REGULAR", "12-28 números"),
+    (0.70, 1.50, "❌ MALO", "28-61 números"),
+    (1.50, 10.0, "🚨 MUY MALO", ">61 números")
+]
+
+for rango_min, rango_max, calidad, error in rangos:
+    print(f"│  {rango_min:.2f} - {rango_max:.2f}  │ {calidad:<16} │ {error:<19} │")
+
+print("└─────────────────┴──────────────────┴─────────────────────┘")
+
+# Evaluar tu pérdida específica
+print(f'\n📈 TU RESULTADO: loss = {test_loss:.6f}')
+
+if test_loss < 0.10:
+    print(f'   ✅ EXCELENTE - Tu modelo predice muy bien')
+    print(f'   🎯 Error aproximado: {test_loss * 41:.1f} números de diferencia')
+elif test_loss < 0.30:
+    print(f'   👍 BUENO - Predicciones aceptables')
+    print(f'   🎯 Error aproximado: {test_loss * 41:.1f} números de diferencia')
+elif test_loss < 0.70:
+    print(f'   ⚠️ REGULAR - Necesita mejorar')
+    print(f'   🎯 Error aproximado: {test_loss * 41:.1f} números de diferencia')
+elif test_loss < 1.50:
+    print(f'   ❌ MALO - Revisar datos o modelo')
+    print(f'   🎯 Error aproximado: {test_loss * 41:.1f} números de diferencia')
+else:
+    print(f'   🚨 MUY MALO - Problemas graves en el modelo')
+    print(f'   🎯 Error aproximado: {test_loss * 41:.1f} números de diferencia')
+
+# Mostrar ejemplo de lo que significa el error
+print(f'\n🔍 ¿QUÉ SIGNIFICA ESTO EN LA PRÁCTICA?')
+print(f'   Si predices el número 20 con loss {test_loss:.3f}:')
+print(f'   • Tu predicción real podría ser: {20 + (test_loss * 41):.1f}')
+print(f'   • O podría ser: {20 - (test_loss * 41):.1f}')
+
+print('\n' + '='*60)
+print('💡 CONSEJO: Un loss < 0.30 es buen resultado para empezar')
+print('='*60)
+
+# Mostrar también los números predichos en detalle (opcional)
+print(f'\n🎯 TUS NÚMEROS PREDICHOS DETALLADOS:')
+numeros_enteros = [int(round(num)) for num in numeros_predichos[0]]
+numeros_ajustados = [max(1, min(41, num)) for num in numeros_enteros]
+
+print(f'1. Valores exactos: {[f"{num:.2f}" for num in numeros_predichos[0]]}')
+print(f'2. Redondeados: {numeros_enteros}')
+print(f'3. Ajustados (1-41): {numeros_ajustados}')
+
+if len(set(numeros_ajustados)) < 6:
+    print(f'4. ⚠️  Atención: Hay números repetidos')
+else:
+    print(f'4. ✅ Todos los números son únicos')
